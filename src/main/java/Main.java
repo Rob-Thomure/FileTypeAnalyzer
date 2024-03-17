@@ -6,7 +6,8 @@ public class Main {
         String stringPattern = args[1];
         String resultingFileType = args[2];
 
-        FileTypeAnalyzer fileTypeAnalyzer = new FileTypeAnalyzer(filePath, stringPattern, resultingFileType);
-        System.out.println(fileTypeAnalyzer.getFileType());
+        //NaiveSearchFileTypeAnalyzer fileTypeAnalyzer = new NaiveSearchFileTypeAnalyzer(filePath, stringPattern,
+        //        resultingFileType);
+        //System.out.println(fileTypeAnalyzer.getFileType());
     }
 }
