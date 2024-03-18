@@ -1,24 +1,53 @@
-import java.util.Arrays;
 
 public class KmpSearch implements SearchInterface {
+    private int textIndex = 0;
+    private int patternIndex = 0;
+    private int numCharsMatched = 0;
+    private int textStartingIndex = 0;
+    int[] prefixArray;
 
     @Override
-    public boolean search(String fileContents, String patternString) {
-
-
-
+    public boolean search(String text, String pattern) {
+        prefixArray = prefixFunction(pattern);
+        while (textIndex < text.length()) {
+            if (text.charAt(textIndex) == pattern.charAt(patternIndex)) {
+                charMatchedSetIndexes();
+            } else {
+                if (patternIndex == 0) {
+                    firstPatternCharMismatchedSetIndexes();
+                } else {
+                    nextPatternCharMismatchedSetIndexes();
+                }
+            }
+            if (numCharsMatched == pattern.length()) {
+                return true;
+            }
+        }
         return false;
     }
 
+    private void charMatchedSetIndexes() {
+        textIndex++;
+        patternIndex++;
+        numCharsMatched++;
+    }
 
+    private void firstPatternCharMismatchedSetIndexes() {
+        textStartingIndex++;
+        textIndex = textStartingIndex;
+        numCharsMatched = 0;
+    }
 
+    private void nextPatternCharMismatchedSetIndexes() {
+        int prefix = prefixArray[patternIndex - 1];
+        int textIndexShift = patternIndex - prefix;
+        textStartingIndex = textStartingIndex + textIndexShift;
+        textIndex = textStartingIndex;
+        patternIndex = 0;
+        numCharsMatched = 0;
+    }
 
-
-    
-
-    
-
-    public int[] myPrefixFunction(String pattern) {
+    private int[] prefixFunction(String pattern) {
         int[] prefixArray = new int[pattern.length()];
         prefixArray[0] = 0;
         int boundary = 0;
@@ -39,17 +68,4 @@ public class KmpSearch implements SearchInterface {
         }
         return prefixArray;
     }
-
-
-
-
-//    public static void main(String[] args) {
-//        KmpSearch searchInterface = new KmpSearch();
-//        String pattern = "ABACABB";
-//        String pattern2 = "AAAABA";
-//        String pattern3 = "MAMMAMIA";
-//        int[] prefixArray = searchInterface.myPrefixFunction(pattern3);
-//        System.out.println(Arrays.toString(prefixArray));
-//
-//    }
 }
