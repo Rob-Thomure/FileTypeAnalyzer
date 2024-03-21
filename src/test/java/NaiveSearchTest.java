@@ -21,4 +21,22 @@ public class NaiveSearchTest {
         boolean matches = searchInterface.search(JpgFileContents, "%PDF-");
         assertFalse(matches);
     }
+
+    @Test
+    public void testAnotherSearch() {
+        String fileContents = "AA%PDF%PDF%PDF%PDF%PDF%PDF%PDF%PDF%PDF%PDF%PDF%PDF%PDF%PDF%PDF%PDF-";
+        String searchString = "%PDF%PDF%PDF%PDF%PDF%PDF%PDF%PDF%PDF%PDF%PDF%PDF%PDF%PDF%PDF%PDF-";
+        SearchInterface searchInterface = new NaiveSearch();
+        boolean matches = searchInterface.search(fileContents, searchString);
+        assertTrue(matches);
+    }
+
+    @Test
+    public void testfileContentsShorterThanSearchString() {
+        String fileContents = "%PDF%PDF%PDF%PDF%PDF%PDF%PDF%PDF%PDF%PDF%PDF%PDF%PDF%PDF%PDF-";
+        String searchString = "%PDF%PDF%PDF%PDF%PDF%PDF%PDF%PDF%PDF%PDF%PDF%PDF%PDF%PDF%PDF%PDF-";
+        SearchInterface searchInterface = new NaiveSearch();
+        boolean matches = searchInterface.search(fileContents, searchString);
+        assertFalse(matches);
+    }
 }

@@ -1,5 +1,6 @@
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 public class CommandLineArgsTest {
 
@@ -8,9 +9,9 @@ public class CommandLineArgsTest {
         String[] args = {"test.pdf", "%PDF-", "PDF document"};
         CommandLineArgs commandLineArgs = new CommandLineArgs(args);
         String[] results = {commandLineArgs.getFilePath(),
-                commandLineArgs.getStringPattern(),
-                commandLineArgs.getResultingFileType()};
-        Assertions.assertArrayEquals(args, results);
+                commandLineArgs.getSearchString(),
+                commandLineArgs.getExpectedFileType()};
+        assertArrayEquals(args, results);
     }
 
     @Test
@@ -19,8 +20,8 @@ public class CommandLineArgsTest {
         CommandLineArgs commandLineArgs = new CommandLineArgs(args);
         String[] results = {commandLineArgs.getSearchType(),
                 commandLineArgs.getFilePath(),
-                commandLineArgs.getStringPattern(),
-                commandLineArgs.getResultingFileType()};
-        Assertions.assertArrayEquals(args, results);
+                commandLineArgs.getSearchString(),
+                commandLineArgs.getExpectedFileType()};
+        assertArrayEquals(args, results);
     }
 }

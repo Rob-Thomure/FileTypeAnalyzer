@@ -1,6 +1,6 @@
 public class DurationStringFormatter {
-    private int seconds;
-    private int milliseconds;
+    private final int seconds;
+    private final int milliseconds;
 
     public DurationStringFormatter(int seconds, int milliseconds) {
         this.seconds = seconds;

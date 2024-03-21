@@ -16,10 +16,10 @@ public class CommandLineArgs {
     }
 
     private void threeArgs(String[] args) {
+        this.searchType = "--basic";
         this.filePath = args[0];
         this.stringPattern = args[1];
         this.resultingFileType = args[2];
-        this.searchType = "--basic";
     }
 
     private void fourArgs(String[] args) {
@@ -33,11 +33,11 @@ public class CommandLineArgs {
         return filePath;
     }
 
-    public String getStringPattern() {
+    public String getSearchString() {
         return stringPattern;
     }
 
-    public String getResultingFileType() {
+    public String getExpectedFileType() {
         return resultingFileType;
     }
 
