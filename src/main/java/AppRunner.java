@@ -1,31 +1,18 @@
+import java.io.File;
+import java.util.Map;
+
 public class AppRunner {
-    private final CommandLineArgs commandLineArgs;
+    private final CommandLineArgsWithDirectory commandLineArgsWithDirectory;
 
     public AppRunner(String[] args) {
-        commandLineArgs = new CommandLineArgs(args);
+        commandLineArgsWithDirectory = new CommandLineArgsWithDirectory(args);
     }
+
 
     public void run() {
-        SearchInterface searchInterface = makeSearchType(commandLineArgs.getSearchType());
-        String fileContents = new FileContents(commandLineArgs.getFilePath()).getFileContents();
-        String searchString = commandLineArgs.getSearchString();
-        String expectedFileType = commandLineArgs.getExpectedFileType();
-        FileTypeAnalyzer filetypeAnalyzer = new FileTypeAnalyzer(searchInterface, fileContents, searchString,
-                expectedFileType);
-        Stopwatch stopwatch = new Stopwatch();
-        stopwatch.start();
-        String fileType = filetypeAnalyzer.run();
-        stopwatch.stop();
-        String duration = new DurationStringFormatter(stopwatch.getSeconds(), stopwatch.getMilliseconds()).toString();
-        System.out.println(fileType);
-        System.out.println(duration);
+        MultiFileTypeAnalyzer multiFileTypeAnalyzer = new MultiFileTypeAnalyzer(commandLineArgsWithDirectory);
+        Map<File, String> filesMap = multiFileTypeAnalyzer.getFilesMap();
+        filesMap.forEach((key, value) -> System.out.println(key.getName() + ": " + value));
     }
 
-    private SearchInterface makeSearchType(String searchTypeString) {
-        return switch (searchTypeString) {
-            case "--naive" -> new NaiveSearch();
-            case "--KMP" -> new KmpSearch();
-            default -> new BasicSearch();
-        };
-    }
 }

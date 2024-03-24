@@ -14,6 +14,7 @@ public class FileContents {
             byte[] bytes = Files.readAllBytes(Paths.get(filePath));
             return new String(bytes);
         } catch (IOException e) {
+            System.out.println("unable to read file");
             System.out.println(e.getMessage());
             return "";
         }
