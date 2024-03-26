@@ -3,7 +3,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 
 public class FileContents {
-    String filePath;
+    private final String filePath;
 
     public FileContents(String filePath) {
         this.filePath = filePath;
@@ -19,6 +19,5 @@ public class FileContents {
             return "";
         }
     }
-
 
 }

@@ -1,49 +1,48 @@
-import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
+import java.util.List;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class FileTypeAnalyzerTest {
 
-//    @Test
-//    public void testClassInstantiation() {
-//        SearchInterface searchInterface = new BasicSearch();
-//        FiletypeAnalyzer fileTypeAnalyzer = new FiletypeAnalyzer("test.pdf", "%PDF-",
-//                "PDF document", searchInterface);
-//    }
-//
-//    @Test
-//    public void testBasicSearchPdf() {
-//        SearchInterface searchInterface = new BasicSearch();
-//        FiletypeAnalyzer fileTypeAnalyzer = new FiletypeAnalyzer("test.pdf", "%PDF-",
-//                "PDF document", searchInterface);
-//        String result = fileTypeAnalyzer.getFileType();
-//        assertEquals("PDF document", result);
-//    }
-//
-//    @Test
-//    public void testBasicSearchUnknownType() {
-//        SearchInterface searchInterface = new BasicSearch();
-//        FiletypeAnalyzer fileTypeAnalyzer = new FiletypeAnalyzer("lambdas.jpg", "%PDF-",
-//                "PDF document", searchInterface);
-//        String result = fileTypeAnalyzer.getFileType();
-//        assertEquals("Unknown file type", result);
-//    }
-//
-//    @Test
-//    public void testNaiveSearchPdf() {
-//        SearchInterface searchInterface = new NaiveSearch();
-//        FiletypeAnalyzer fileTypeAnalyzer = new FiletypeAnalyzer("test.pdf", "%PDF-",
-//                "PDF document", searchInterface);
-//        String result = fileTypeAnalyzer.getFileType();
-//        assertEquals("PDF document", result);
-//    }
-//
-//    @Test
-//    public void testNaiveSearchUnknowntype() {
-//        SearchInterface searchInterface = new NaiveSearch();
-//        FiletypeAnalyzer fileTypeAnalyzer = new FiletypeAnalyzer("lambdas.jpg", "%PDF-",
-//                "PDF document", searchInterface);
-//        String result = fileTypeAnalyzer.getFileType();
-//        assertEquals("Unknown file type", result);
-//    }
+    @Test
+    public void testZipArchive() {
+        SearchInterface searchInterface = new KmpSearch();
+        String fileContents = new FileContents("test_files/doc1.txt").getFileContents();
+
+        String patternContents = new FileContents("patterns.db").getFileContents();
+        PatternFileParser patternFileParser = new PatternFileParser(patternContents);
+        List<Pattern> patterns = patternFileParser.getPatterns();
+        FileTypeAnalyzer fileTypeAnalyzer = new FileTypeAnalyzer(searchInterface, patterns);
+        String results = fileTypeAnalyzer.getFileType(fileContents);
+        assertEquals("Zip archive", results);
+    }
+
+    @Test
+    public void testZipArchiveBasicSearch() {
+        SearchInterface searchInterface = new BasicSearch();
+        String fileContents = new FileContents("test_files/doc1.txt").getFileContents();
+
+        String patternContents = new FileContents("patterns.db").getFileContents();
+        PatternFileParser patternFileParser = new PatternFileParser(patternContents);
+        List<Pattern> patterns = patternFileParser.getPatterns();
+        FileTypeAnalyzer fileTypeAnalyzer = new FileTypeAnalyzer(searchInterface, patterns);
+        String results = fileTypeAnalyzer.getFileType(fileContents);
+        assertEquals("Zip archive", results);
+    }
+
+    @Test
+    public void testPDF() {
+        SearchInterface searchInterface = new KmpSearch();
+        String fileContents = new FileContents("test_files/test2.pdf").getFileContents();
+
+        String patternContents = new FileContents("patterns.db").getFileContents();
+        PatternFileParser patternFileParser = new PatternFileParser(patternContents);
+        List<Pattern> patterns = patternFileParser.getPatterns();
+        FileTypeAnalyzer fileTypeAnalyzer = new FileTypeAnalyzer(searchInterface, patterns);
+        String results = fileTypeAnalyzer.getFileType(fileContents);
+        assertEquals("PDF document", results);
+    }
 }
